@@ -6,7 +6,7 @@ const app = express();
 
 //4.create a route
 app.get('/', (request, response)=>{
-    response.send('hello world');
+    response.send('hello');
 })
 
 //3.run the server
