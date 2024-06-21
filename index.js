@@ -1,4 +1,4 @@
-const posts =[
+let posts =[
     {
       "userId": 1,
       "id": 1,
@@ -632,6 +632,18 @@ app.put('/posts/:id', (request, response)=>{
     }
     posts = posts.map(post => post.id == id ? updatedPost : post);
     response.json(updatedPost)
+})
+app.delete('/posts/:id', (request,response)=>{
+  const postToDelete = posts.find(post => post.id == request.params.id)
+  if (!postToDelete) {
+    response.send({
+        message: 'Post not found'
+    })
+}
+  posts=posts.filter(post=> post.id !=request.params.id)
+  response.json({
+    message: 'post deleted successfully'
+  })
 })
 
 //3.run the server
