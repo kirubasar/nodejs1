@@ -612,11 +612,26 @@ app.get('/posts', (request, response)=>{
     response.json(posts);
 })
 app.post('/posts', (request, response)=>{
-    response.json({
+    posts.push({
         ...request.body,
         id: posts.length+1
+    })
+    response.json({
+        ...request.body,
+        id: posts.length
     }
 );
+})
+app.put('/posts/:id', (request, response)=>{
+    const id = request.params.id;
+    let updatedPost= request.body;
+    const toUpdatePost=posts.find(post=>post.id==id)
+    updatedPost ={
+        ...toUpdatePost,
+        ...updatedPost
+    }
+    posts = posts.map(post => post.id == id ? updatedPost : post);
+    response.json(updatedPost)
 })
 
 //3.run the server
