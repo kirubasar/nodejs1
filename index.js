@@ -1,8 +1,8 @@
 const mongoose = require('mongoose')
 const app = require('./app');
-const {MONGODB_URI} = require('./utils/config')
+const {mongodb} = require('./utils/config')
 console.log('Connecting to MongoDB...');
-mongoose.connect(MONGODB_URI)
+mongoose.connect(mongodb)
 .then(()=>{
   console.log('Connected to MongoDB');
   //after connecting to MongoDB, start the server
