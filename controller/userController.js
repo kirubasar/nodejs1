@@ -90,7 +90,16 @@ const userController = {
             response.status(500).send({message: error.message})
     
            }
-    }
+    },
+    logout: async(request, response)=>{
+        try{
+            // clear the cookie
+            response.clearCookie('token');
+            response.status(200).send({message: 'Logged out succesfully'})
+        }catch(error){
+            response.status(500).send({message: error.message})
+        } 
+    }       
     }
 
 module.exports = userController;
