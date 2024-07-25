@@ -1,4 +1,5 @@
 const User = require('../models/user')
+const bcrypt = require('bcrypt')
 // define the controller for the user
 const userController = {
     getAllUsers: async (request, response)=>{
@@ -30,8 +31,10 @@ const userController = {
         if(user){
             return response.status(400).send({message:'user already exist'})
         }
+        // hash the password
+        const hashPassword = await bcrypt.hash(password, 10)
         // create a new user
-        const newUser = new User({name, email, password});
+        const newUser = new User({name, email, password:hashPassword});
         // save the user
         const savedUser = await newUser.save();
         response.status(201).send({
