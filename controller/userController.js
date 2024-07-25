@@ -3,7 +3,17 @@ const User = require('../models/user')
 const userController = {
     getAllUsers: async (request, response)=>{
         try {
-            const users = await User.find({}, {_id:0, password:0})         
+            const {email} = request.query;
+            if(email){
+                //find the user by email
+                const user = await User.findOne({email})
+                if(!user){
+                    return response.status(404).send({message: 'user not found'})
+                }
+                return response.status(200).json(user)
+            }
+            // if no query parameters are provided, return all users
+            const users = await User.find();         
             response.status(200).json(users)
         } catch (error){
             response.status(500).send({message: error.message})
@@ -31,6 +41,19 @@ const userController = {
     }catch(error){
        response.status(500).send({message: error.message})
     }
+    },
+    getUserById: async(request, response)=>{
+       try{
+        const userId = request.params.id;
+        const user =await User.findById(userId);
+        if(!user){
+            return response.status(404).send({message: 'User not found'})
+        }
+        response.status(200).json(user)
+       }catch (error){
+        response.status(500).send({message: error.message})
+
+       }
     }
     }
 
