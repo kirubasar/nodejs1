@@ -4,9 +4,12 @@ const userController= require('../controller/userController')
 const auth = require('../middlware/auth')
 
 // define the route for getting all users
-userRouter.get('/', auth.verifyToken, userController.getAllUsers);
+// public routes
 userRouter.post('/', userController.register);
 userRouter.post('/login', userController.login);
-userRouter.get('/logout', userController.logout);
-userRouter.get('/:id', userController.getUserById);
+
+// protected routes
+userRouter.get('/', auth.verifyToken, userController.getAllUsers);
+userRouter.get('/logout',auth.verifyToken, userController.logout);
+userRouter.get('/:id',auth.verifyToken, userController.getUserById);
 module.exports = userRouter;
